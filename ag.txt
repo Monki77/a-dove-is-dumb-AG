@@ -1,11 +1,3 @@
-! These IPs will only block the telemetry check of Adobe apps,
-! and shouldn't interfere with any other network option,
-! such as AI generation, downloads, etc.
-! 0.0.0.0 can be found in https://a.dove.isdumb.one/list.txt
-! Pop up window? Report at:
-! https://github.com/ignaciocastro/a-dove-is-dumb/issues
-! Or follow updates at https://a.dove.isdumb.one/telegram
-! Last update: 2025-07-21 11:41 UTC
 ||ic.adobe.io^
 ||cc-api-data.adobe.io^
 ||fp.adobestats.io^
@@ -3160,3 +3152,5 @@
 ||pfrssdf5.lqn0m.adobestats.io^
 ||qa96p4q986.xwk4b.adobestats.io^
 ||7zvfz78jul.lqn0m.adobestats.io^
+||v3pyykmk.xwk4b.adobestats.io^
+||h9zmrvke.lqn0m.adobestats.io^
