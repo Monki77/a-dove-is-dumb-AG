@@ -1,0 +1,43 @@
+name: Update AdGuard List
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # Runs automatically at 4:00 AM UTC every day
+  workflow_dispatch:    # Allows you to run it manually from the Actions tab
+
+jobs:
+  update-blocklist:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch and Transform List
+        run: |
+          # Download the upstream pihole.txt
+          # tr -d '\r' ensures Windows line endings are removed
+          # sed does the formatting:
+          #   /^#/d  -> Delete comment lines starting with #
+          #   /^$/d  -> Delete empty lines
+          #   s/^/||/ -> Add || to the start of the line
+          #   s/$/^/  -> Add ^ to the end of the line
+          
+          curl -sSL https://raw.githubusercontent.com/ignaciocastro/a-dove-is-dumb/main/pihole.txt | \
+          tr -d '\r' | \
+          sed '/^#/d; /^$/d; s/^/||/; s/$/^/' > ag.txt
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ag.txt
+          
+          # Check if there are changes before committing
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-update AdGuard blocklist"
+            git push
+          fi
